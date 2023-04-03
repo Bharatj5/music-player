@@ -28,10 +28,10 @@ public class Song {
         five.setNextSong(six);
 
         System.out.printf("In the repeating playlist: %s, %s, %s, %s\n",
-                        first.isInRepeatingPlaylist(),
-                        second.isInRepeatingPlaylist(),
-                        third.isInRepeatingPlaylist(),
-                        four.isInRepeatingPlaylist());
+                first.isInRepeatingPlaylist(),
+                second.isInRepeatingPlaylist(),
+                third.isInRepeatingPlaylist(),
+                four.isInRepeatingPlaylist());
         System.out.printf("Not in the repeating playlist: %s, %s\n",
                 five.isInRepeatingPlaylist(),
                 six.isInRepeatingPlaylist());
@@ -45,10 +45,12 @@ public class Song {
                 return false;
             }
             if (!visitedSongs.add(currentSong)) {
+                // avoid cyclic dependency
                 return currentSong.equals(this);
             }
             currentSong = currentSong.nextSong;
         } while (currentSong != this);
+        // as we reached back to the seed node
         return true;
     }
 
@@ -57,6 +59,7 @@ public class Song {
         if (this == o) return true;
         if (!(o instanceof Song)) return false;
         Song song = (Song) o;
+        // assuming distinct song names
         return Objects.equals(name, song.name);
     }
 
